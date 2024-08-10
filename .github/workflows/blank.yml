@@ -1,31 +1,66 @@
-# 기존 식당 데이터를 저장한 리스트
-restaurants = [
-    {"대표음식": "콩나물국밥", "상호": "24시전주명가콩나물국밥", "업태": "한식", "연번": 1, "전화번호": "061-279-4528"},
-    {"대표음식": "장어구이", "상호": "갓바위풍천민물장어", "업태": "한식", "연번": 2, "전화번호": "061-284-9083"},
-    {"대표음식": "해물탕", "상호": "거멍돌해물탕", "업태": "한식", "연번": 3, "전화번호": "061-284-9252"},
-    {"대표음식": "중식", "상호": "경남반점", "업태": "중식", "연번": 4, "전화번호": "061-272-8111"},
-    {"대표음식": "회", "상호": "고맙다바다야", "업태": "한식", "연번": 5, "전화번호": "061-276-4828"},
-    {"대표음식": "추어탕", "상호": "고향추어탕", "업태": "한식", "연번": 6, "전화번호": "061-273-1681"},
-    {"대표음식": "오징어짬뽕", "상호": "곽짬뽕", "업태": "중식", "연번": 7, "전화번호": "061-243-6420"},
-    {"대표음식": "장어구이", "상호": "광장속풀이", "업태": "한식", "연번": 8, "전화번호": "061-283-3690"},
-    {"대표음식": "회", "상호": "긴자회수산", "업태": "한식", "연번": 9, "전화번호": "061-281-0210"},
-    {"대표음식": "낙지탕탕이", "상호": "나나네집", "업태": "한식", "연번": 10, "전화번호": "061-277-5328"}
-]
+import json
 
-# 휠체어 접근 가능 여부를 추가하는 함수
-def add_wheelchair_accessibility(restaurants):
-    for restaurant in restaurants:
-        access = input(f"{restaurant['상호']} (휠체어 접근 가능 여부를 '예' 또는 '아니오'로 입력하세요): ")
-        restaurant['휠체어 접근 가능 여부'] = access
+# JSON 데이터를 파싱합니다.
+data = """
+{
+  "response": {
+    "header": {
+      "resultMsg": "NORMAL_CODE",
+      "resultCode": "00"
+    },
+    "body": {
+      "totalCount": "1374",
+      "items": {
+        "item": [
+          {
+            "subject": "도니가족발",
+            "contents": "...",
+            "boardCode": "200a01",
+            "boardCodeNm": "1호선",
+            "registerDate": "2018-06-15",
+            "setValue": "10|7|6|5|10|7|6|5|11|11",
+            "setValueNm": "음식점|경사로|이용가능시설|자동문|음식점|경사로|이용가능시설|자동문|입식테이블|입식테이블",
+            "gubun": "도시철도 음식점",
+            "imgUrl": null
+          },
+          {
+            "subject": "장산수제왕돈까스",
+            "contents": "...",
+            "boardCode": "200a02",
+            "boardCodeNm": "2호선",
+            "registerDate": "2018-06-15",
+            "setValue": "11|10|6|5|11|10|6|5",
+            "setValueNm": "입식테이블|음식점|이용가능시설|자동문|입식테이블|음식점|이용가능시설|자동문",
+            "gubun": "도시철도 음식점",
+            "imgUrl": null
+          }
+          # ... 다른 항목들 ...
+        ]
+      },
+      "pageNo": "1",
+      "numOfRows": "10"
+    }
+  }
+}
+"""
 
-    return restaurants
+# JSON 데이터를 파싱하여 파이썬 객체로 변환합니다.
+parsed_data = json.loads(data)
 
-# 휠체어 접근 가능 여부를 추가
-updated_restaurants = add_wheelchair_accessibility(restaurants)
+# 휠체어 접근 가능 여부를 확인하는 함수
+def is_wheelchair_accessible(item):
+    # 휠체어 접근에 필수적인 요소들
+    required_features = ["경사로", "이용가능시설", "자동문"]
+    
+    # setValueNm 필드를 가져옵니다.
+    features = item.get("setValueNm", "")
+    
+    # 모든 필수 요소가 있는지 확인합니다.
+    return all(feature in features for feature in required_features)
 
-# 업데이트된 식당 정보 출력
-for restaurant in updated_restaurants:
-    print(restaurant)
-
-# 최종 데이터를 다른 곳에 저장하거나 다른 작업에 사용할 수 있습니다.
+# 결과를 확인합니다.
+for item in parsed_data["response"]["body"]["items"]["item"]:
+    subject = item["subject"]
+    accessible = is_wheelchair_accessible(item)
+    print(f"{subject}는 휠체어 접근 {'가능' if accessible else '불가능'}합니다.")
 
