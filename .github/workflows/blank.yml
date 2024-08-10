@@ -1,55 +1,31 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8"/>
-	<title>Kakao 지도 시작하기</title>
-</head>
-<body>
-	<div id="map" style="width:500px;height:400px;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8"/>
-	<title>Kakao 지도 시작하기</title>
-</head>
-<body>
-	<div id="map" style="width:500px;height:400px;"></div>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=739bb1f6193a1becb71d67e16d7aeebe"></script>
-	<script>
-		var container = document.getElementById('map');
-		var options = {
-			center: new kakao.maps.LatLng(35.835357, 129.282641),
-			level: 3
-		};
+# 기존 식당 데이터를 저장한 리스트
+restaurants = [
+    {"대표음식": "콩나물국밥", "상호": "24시전주명가콩나물국밥", "업태": "한식", "연번": 1, "전화번호": "061-279-4528"},
+    {"대표음식": "장어구이", "상호": "갓바위풍천민물장어", "업태": "한식", "연번": 2, "전화번호": "061-284-9083"},
+    {"대표음식": "해물탕", "상호": "거멍돌해물탕", "업태": "한식", "연번": 3, "전화번호": "061-284-9252"},
+    {"대표음식": "중식", "상호": "경남반점", "업태": "중식", "연번": 4, "전화번호": "061-272-8111"},
+    {"대표음식": "회", "상호": "고맙다바다야", "업태": "한식", "연번": 5, "전화번호": "061-276-4828"},
+    {"대표음식": "추어탕", "상호": "고향추어탕", "업태": "한식", "연번": 6, "전화번호": "061-273-1681"},
+    {"대표음식": "오징어짬뽕", "상호": "곽짬뽕", "업태": "중식", "연번": 7, "전화번호": "061-243-6420"},
+    {"대표음식": "장어구이", "상호": "광장속풀이", "업태": "한식", "연번": 8, "전화번호": "061-283-3690"},
+    {"대표음식": "회", "상호": "긴자회수산", "업태": "한식", "연번": 9, "전화번호": "061-281-0210"},
+    {"대표음식": "낙지탕탕이", "상호": "나나네집", "업태": "한식", "연번": 10, "전화번호": "061-277-5328"}
+]
 
-		var map = new kakao.maps.Map(container, options);
-	</script>
-</body>
-</html>"></script>
-	<script>
-		var container = document.getElementById('map');
+# 휠체어 접근 가능 여부를 추가하는 함수
+def add_wheelchair_accessibility(restaurants):
+    for restaurant in restaurants:
+        access = input(f"{restaurant['상호']} (휠체어 접근 가능 여부를 '예' 또는 '아니오'로 입력하세요): ")
+        restaurant['휠체어 접근 가능 여부'] = access
 
-		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 3
-		};
+    return restaurants
 
-		var map = new kakao.maps.Map(container, options);
-function setCenter() {            
-    // 이동할 위도 경도 위치를 생성합니다 
-    var moveLatLon = new kakao.maps.LatLng(35.835357, 129.282641);
-    
-    // 지도 중심을 이동 시킵니다
-    map.setCenter(moveLatLon);
-}
+# 휠체어 접근 가능 여부를 추가
+updated_restaurants = add_wheelchair_accessibility(restaurants)
 
-function panTo() {
-    // 이동할 위도 경도 위치를 생성합니다 
-    var moveLatLon = new kakao.maps.LatLng(33.450580, 126.574942);
-    
-    // 지도 중심을 부드럽게 이동시킵니다
-    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+# 업데이트된 식당 정보 출력
+for restaurant in updated_restaurants:
+    print(restaurant)
 
-	</script>
-</body>
-</html>
+# 최종 데이터를 다른 곳에 저장하거나 다른 작업에 사용할 수 있습니다.
+
